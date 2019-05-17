@@ -1,6 +1,13 @@
 # apriltags2_ros
 <<<<<<< HEAD
 
+my work
+##apriltags2_node
+subscriber the /tag_detections node ,input the pose of apriltags relative of camera
+
+
+
+
 This is a Robot Operating System (ROS) wrapper of the [AprilTags 2 visual fiducial detector](https://april.eecs.umich.edu/software/apriltag.html). For details and tutorials, please see the [ROS wiki](http://wiki.ros.org/apriltags2_ros).
 
 **Authors**: Danylo Malyuta  
