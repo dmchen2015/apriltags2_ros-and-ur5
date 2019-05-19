@@ -1,5 +1,8 @@
 #include <ros/ros.h>
 #include <apriltags2_node/LocalizePart.h>
+#include <tf/tf.h>
+
+#include <moveit/move_group_interface/move_group_interface.h>
 
 class ScanNPlan
 {
@@ -25,6 +28,17 @@ public:
     }
     ROS_INFO_STREAM("part localized: " << srv.response);
     //ROS_INFO_STREAM("frame_id: " << srv.request.base_frame);
+    //LocalizePart服务的响应后来初始化一个新move_target变量
+    geometry_msgs::Pose move_target = srv.response.pose;
+    //创建一个对象，move_group（）构造函数定义计划组名称
+    moveit::planning_interface::MoveGroupInterface move_group("manipulator");
+
+    // Plan for robot to move to part
+    //使用move_group对象的setPoseTarget功能设置所需的笛卡尔目标位置
+    move_group.setPoseReferenceFrame(base_frame);
+    move_group.setPoseTarget(move_target);
+    move_group.move();
+    
   }
 
 private:
@@ -38,6 +52,11 @@ int main(int argc, char **argv)
   ros::NodeHandle nh;
   ros::NodeHandle private_node_handle ("~");
 
+  //如所描述的在这里，所述move_group.move()命令需要使用“异步”旋转器，以允许阻塞期间ROS消息的处理move()命令
+  ros::AsyncSpinner async_spinner(1);
+  async_spinner.start();
+
+
   ROS_INFO("ScanNPlan node has been initialized");
   std::string base_frame;
   private_node_handle.param<std::string>("base_frame", base_frame, "world"); // parameter name, string object reference, default value
@@ -46,7 +65,6 @@ int main(int argc, char **argv)
   ros::Duration(.5).sleep();  // wait for the class to initialize
   app.start(base_frame);
 
-  
-
-  ros::spin();
+  ros::waitForShutdown();
+  //ros::spin();
 }

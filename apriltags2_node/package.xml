@@ -64,6 +64,7 @@
   <exec_depend>tf</exec_depend>
  
   <depend>geometry_msgs</depend>
+  <depend>moveit_ros_planning_interface</depend>
   
 
 
