@@ -16,7 +16,7 @@
     </collision>
   </link>
 
-  <link name="usb_cam"/>
+  <link name="camera"/>
 
  <xacro:ur5_robot prefix="" joint_limited="true"/>
 
@@ -32,9 +32,9 @@
     <origin xyz="0 0 0.5" rpy="0 0 0"/>
   </joint>
 
-  <joint name="world_to_usb_cam" type="fixed">
+  <joint name="world_to_camera" type="fixed">
     <parent link="world"/>
-    <child link="usb_cam"/>
+    <child link="camera"/>
     <origin xyz="-0.25 -0.5 1.25" rpy="0 3.14159 0"/>
   </joint>
 </robot>
