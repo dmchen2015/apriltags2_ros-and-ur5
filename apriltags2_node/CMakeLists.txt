@@ -14,6 +14,12 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   tf
   moveit_ros_planning_interface
+
+  ur5_demo_descartes
+  descartes_trajectory
+  descartes_planner
+  descartes_utilities
+  trajectory_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -60,6 +66,7 @@ find_package(catkin REQUIRED COMPONENTS
  add_service_files(
    FILES
    LocalizePart.srv
+   PlanCartesianPath.srv
 #   Service1.srv
 #   Service2.srv
  )
@@ -74,7 +81,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
  generate_messages(
    DEPENDENCIES
+   std_msgs
    geometry_msgs
+   trajectory_msgs
 #   std_msgs  # Or other packages containing msgs
  )
 
@@ -125,7 +134,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
- include
+# include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -137,6 +146,9 @@ add_executable(apriltags2_client src/apriltags2_client.cpp)
 add_dependencies(apriltags2_client ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(apriltags2_client ${catkin_LIBRARIES})
 
+add_executable(descartes_node src/descartes_node.cpp)
+add_dependencies(descartes_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(descartes_node ${catkin_LIBRARIES})
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
